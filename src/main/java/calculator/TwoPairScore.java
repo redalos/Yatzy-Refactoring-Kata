@@ -2,20 +2,22 @@ package calculator;
 
 import utils.YatzyUtil;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class TwoPairScore implements ScoreCalculatorInterface {
     @Override
-    public int calculate(int... dice) {
-        int[] counts = YatzyUtil.countDice(dice);
-        int pairs = 0, score = 0;
-        for (int i = 5; i >= 0; i--) {
-            if (counts[i] >= 2) {
-                pairs++;
-                score += (i + 1);
-            }
+    public int calculate(List<Integer> dice) {
+        YatzyUtil.validateDice(dice);
+        List<Integer> pairs = dice.stream()
+            .filter(num -> java.util.Collections.frequency(dice, num) >= 2)
+            .distinct()
+            .collect(Collectors.toList());
+
+        if (pairs.size() == 2) {
+            return pairs.stream().mapToInt(Integer::intValue).sum() * 2;
         }
-        if (pairs == 2) {
-            return score * 2;
-        }
+
         return 0;
     }
 }

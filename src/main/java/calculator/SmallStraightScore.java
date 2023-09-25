@@ -2,13 +2,17 @@ package calculator;
 
 import utils.YatzyUtil;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 public class SmallStraightScore implements ScoreCalculatorInterface {
     @Override
-    public int calculate(int... dice) {
-        int[] counts = YatzyUtil.countDice(dice);
-        if (counts[0] == 1 && counts[1] == 1 && counts[2] == 1 && counts[3] == 1 && counts[4] == 1) {
-            return 15;
-        }
-        return 0;
+    public int calculate(List<Integer> dice) {
+        YatzyUtil.validateDice(dice);
+        boolean smallStraight = IntStream.rangeClosed(1, 5)
+            .allMatch(dice::contains);
+
+        return smallStraight ? YatzyUtil.SMALL_STRAIGHT_SCORE : 0;
     }
+
 }

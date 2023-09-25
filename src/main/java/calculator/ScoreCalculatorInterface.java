@@ -1,5 +1,7 @@
 package calculator;
 
+import java.util.List;
+
 public interface ScoreCalculatorInterface {
-    int calculate(int... dice);
+    int calculate(List<Integer> dice);
 }
